@@ -159,6 +159,7 @@ system! {
         volume::Volume,
         volume_rate::VolumeRate,
         volumetric_density_of_states::VolumetricDensityOfStates,
+        volumetric_flux::VolumetricFlux,
         volumetric_heat_capacity::VolumetricHeatCapacity,
         volumetric_number_density::VolumetricNumberDensity,
         volumetric_number_rate::VolumetricNumberRate,
@@ -279,6 +280,20 @@ pub mod marker {
     /// let lu: Luminance = il.into();
     /// ```
     pub trait IlluminanceKind: Kind {}
+
+    /// `FluxKind` is a `Kind` for separating quantities of
+    /// flux from other identically dimensioned quantities.
+    /// Conversions to and from `Flux` quantities are
+    /// supported through implementations of the `From` trait.
+    ///
+    #[cfg_attr(feature = "f32", doc = " ```rust")]
+    #[cfg_attr(not(feature = "f32"), doc = " ```rust,ignore")]
+    /// # use uom::si::f32::*;
+    /// # use uom::si::illuminance::lux;
+    /// let il: Illuminance = Illuminance::new::<lux>(1.0);
+    /// let lu: Luminance = il.into();
+    /// ```
+    pub trait FluxKind: Kind {}
 
     /// `impl_from` generates generic inter-Kind implementations of `From`.
     #[cfg(feature = "autoconvert")]
@@ -448,4 +463,6 @@ pub mod marker {
     impl_from!(Kind, KinematicViscosityKind);
     impl_from!(IlluminanceKind, Kind);
     impl_from!(Kind, IlluminanceKind);
+    impl_from!(FluxKind, Kind);
+    impl_from!(Kind, FluxKind);
 }
